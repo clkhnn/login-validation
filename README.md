@@ -1,16 +1,66 @@
-# React + Vite
+# Login Validation Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React ve Vite kullanılarak geliştirilmiş, form doğrulama kurallarına sahip bir giriş sayfası projesidir.
 
-Currently, two official plugins are available:
+## Kullanılan Teknolojiler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React
+- Vite
+- JavaScript
+- Reactstrap
+- Bootstrap
+- Cypress
 
-## React Compiler
+## Özellikler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- E-posta adresi doğrulama
+- Güçlü şifre kontrolü
+- Kullanım koşulları onayı
+- Form geçerliliğine göre giriş butonunun aktif/pasif olması
+- Başarılı giriş sonrasında başarı ekranının gösterilmesi
+- Cypress ile otomatik uçtan uca (E2E) testler
 
-## Expanding the ESLint configuration
+## Şifre Gereksinimleri
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Şifrenin geçerli sayılması için:
+
+- En az 8 karakter içermesi
+- En az bir büyük harf içermesi
+- En az bir küçük harf içermesi
+- En az bir rakam içermesi
+- En az bir özel karakter içermesi
+
+## Kurulum
+
+Projeyi bilgisayarınıza indirdikten sonra terminalde şu komutları çalıştırın:
+
+```bash
+npm install
+```
+
+Uygulamayı başlatmak için:
+
+```bash
+npm run dev
+```
+
+## Cypress Testleri
+
+Cypress test ekranını açmak için:
+
+```bash
+npx cypress open
+```
+
+Testleri terminal üzerinden çalıştırmak için:
+
+```bash
+npx cypress run
+```
+
+## Test Senaryoları
+
+1. Geçerli bilgilerle başarılı giriş yapılması
+2. Geçersiz e-posta adresinde hata mesajı gösterilmesi
+3. Geçersiz e-posta ve şifre durumunda iki hata mesajı gösterilmesi
+4. Kullanım koşulları kabul edilmediğinde giriş butonunun pasif kalması
