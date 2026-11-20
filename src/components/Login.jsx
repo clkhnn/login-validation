@@ -1,17 +1,78 @@
+import { useState } from "react";
 
 import {
   Form,
   FormGroup,
   Label,
   Input,
-  Button
+  Button,
+  FormFeedback
 } from "reactstrap";
 
 function Login({ onLoginSuccess }) {
-  const handleSubmit = (event) => {
-    event.preventDefault();
+    const [form, setForm] = useState({
+  email: "",
+  password: "",
+  terms: false,
+});
+
+const [errors, setErrors] = useState({
+  email: "",
+  password: "",
+});
+
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePassword = (password) => {
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+  return passwordRegex.test(password);
+};
+
+
+const handleChange = (event) => {
+  const { name, value, type, checked } = event.target;
+
+  const newValue = type === "checkbox" ? checked : value;
+
+  setForm({
+    ...form,
+    [name]: newValue,
+  });
+
+  if (name === "email") {
+    setErrors({
+      ...errors,
+      email: validateEmail(value)
+        ? ""
+        : "Lütfen geçerli bir email adresi girin.",
+    });
+  }
+
+  if (name === "password") {
+    setErrors({
+      ...errors,
+      password: validatePassword(value)
+        ? ""
+        : "Şifre en az 8 karakter, büyük harf, küçük harf, rakam ve özel karakter içermelidir.",
+    });
+  }
+};
+
+const isValid =
+  validateEmail(form.email) &&
+  validatePassword(form.password) &&
+  form.terms;
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+
+  if (isValid) {
     onLoginSuccess();
-  };
+  }
+};
 
   return (
     <div className="container mt-5">
@@ -25,7 +86,14 @@ function Login({ onLoginSuccess }) {
             name="email"
             placeholder="Enter your email"
             type="email"
-          />
+            onChange={handleChange}
+            value={form.email}
+            invalid={!!errors.email}
+/>
+
+{errors.email && (
+  <FormFeedback>{errors.email}</FormFeedback>
+)}
         </FormGroup>
 
         <FormGroup>
@@ -35,7 +103,14 @@ function Login({ onLoginSuccess }) {
             name="password"
             placeholder="Enter your password"
             type="password"
-          />
+            onChange={handleChange}
+            value={form.password}
+            invalid={!!errors.password}
+/>
+
+{errors.password && (
+  <FormFeedback>{errors.password}</FormFeedback>
+)}
         </FormGroup>
 
         <FormGroup check>
@@ -44,13 +119,15 @@ function Login({ onLoginSuccess }) {
               type="checkbox"
               name="terms"
               id="terms"
+              checked={form.terms}
+              onChange={handleChange}
             />
             I agree to terms of service and privacy policy
           </Label>
         </FormGroup>
 
         <FormGroup className="text-center p-4">
-          <Button color="primary" type="submit">
+          <Button color="primary" disabled={!isValid}>
             Sign In
           </Button>
         </FormGroup>
