@@ -1,36 +1,60 @@
-import React from "react";
 
-function Login() {
+import {
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button
+} from "reactstrap";
+
+function Login({ onLoginSuccess }) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onLoginSuccess();
+  };
+
   return (
-    <div>
-      <h1>Giriş Yap</h1>
+    <div className="container mt-5">
+      <h1 className="text-center mb-4">Giriş Yap</h1>
 
-      <form>
-        <div>
-          <label htmlFor="email">E-posta:</label>
-          <input
+      <Form onSubmit={handleSubmit}>
+        <FormGroup>
+          <Label for="exampleEmail">Email</Label>
+          <Input
+            id="exampleEmail"
+            name="email"
+            placeholder="Enter your email"
             type="email"
-            id="email"
-            placeholder="E-posta adresinizi girin"
           />
-        </div>
+        </FormGroup>
 
-        <div>
-          <label htmlFor="password">Şifre:</label>
-          <input
+        <FormGroup>
+          <Label for="examplePassword">Password</Label>
+          <Input
+            id="examplePassword"
+            name="password"
+            placeholder="Enter your password"
             type="password"
-            id="password"
-            placeholder="Şifrenizi girin"
           />
-        </div>
+        </FormGroup>
 
-        <div>
-          <input type="checkbox" id="terms" />
-          <label htmlFor="terms">Şartları kabul ediyorum</label>
-        </div>
+        <FormGroup check>
+          <Label check htmlFor="terms">
+            <Input
+              type="checkbox"
+              name="terms"
+              id="terms"
+            />
+            I agree to terms of service and privacy policy
+          </Label>
+        </FormGroup>
 
-        <button type="submit">Giriş Yap</button>
-      </form>
+        <FormGroup className="text-center p-4">
+          <Button color="primary" type="submit">
+            Sign In
+          </Button>
+        </FormGroup>
+      </Form>
     </div>
   );
 }
